@@ -1,0 +1,28 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "Learn React",
+  "source": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bwinamit/Learn_React.git"
+  },
+  "keywords": [
+    "React",
+    "Chiku",
+    "Node",
+    "System-Design"
+  ],
+  "author": "Amit Panda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bwinamit/Learn_React/issues"
+  },
+  "homepage": "https://github.com/bwinamit/Learn_React#readme",
+  "devDependencies": {
+    "parcel": "^2.14.2"
+  }
+}
