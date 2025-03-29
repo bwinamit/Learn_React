@@ -1,3 +1,33 @@
-#heading{
-    color: red;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+.logo {
+    height: 50px;
+}
+
+.nav-items ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-items ul li {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
 }

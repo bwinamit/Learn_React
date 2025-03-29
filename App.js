@@ -1,26 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom/client"; 
 
-// React ELement=>JSX
-const jsxHeading= (<h1 id="jsx">Hello From Jsx and good morning</h1>)
-const root = ReactDOM.createRoot(document.getElementById("id"));
+const Header=()=>{
+    return(
+        <div className="header">
+            <div className="logo-container">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjXm-Lz1wqab2UY4q-vR2b1nEBH3NHEPpIsA&s" alt="" className="logo" />
+            </div>
+            <div className="nav-items">
+                <ul>
+                    <li>Home</li>
+                    <li>About Us</li>
+                    <li>Contact Us</li>
+                    <li>Cart</li>
+                </ul>
+            </div>
+        </div>
+    )
+}
+const AppLayout=()=>{
+    return(
+        <div className="app">
+            <Header/>
 
-// Functional Components
-const Title=()=>(
-<h1>Hello from Title component</h1>
-);
+        </div>
+    )
+}
 
-const Heading=()=>{
-
-   return ( <div className="container">
-        <Title/>
-        <h1>Hello from Heading component</h1>;
-    </div>)
-} 
-
-const Element =()=>{
-    return <h1>Hello World</h1>
-} ;    
-root.render(<Heading/>);
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<AppLayout/>);
 
 
