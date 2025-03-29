@@ -1,21 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client"; 
 
-const parent=
-    React.createElement("div", {id:"parent"},
-    React.createElement("div", {id:"child"},[
-    React.createElement("h1", {key: "h1"}, "Hello World from React Amit Tag!"),
-    React.createElement("h2", {key: "h2"}, "Hello World from React H2 Tag!")
-]),
-React.createElement("div", {id:"child2"},[
-    React.createElement("h1", {key: "h3"}, "Hello World from React H1 Tag!"),
-    React.createElement("h2", {key: "h4"}, "Hello World from React H2 Tag!")
-]),
+// React ELement=>JSX
+const jsxHeading= (<h1 id="jsx">Hello From Jsx and good morning</h1>)
+const root = ReactDOM.createRoot(document.getElementById("id"));
+
+// Functional Components
+const Title=()=>(
+<h1>Hello from Title component</h1>
 );
 
+const Heading=()=>{
 
-console.log(parent)
+   return ( <div className="container">
+        <Title/>
+        <h1>Hello from Heading component</h1>;
+    </div>)
+} 
 
-const heading = React.createElement("h1", {id:"heading"}, "Hello World from React!");
-const root = ReactDOM.createRoot(document.getElementById("id"));
-root.render(parent);
+const Element =()=>{
+    return <h1>Hello World</h1>
+} ;    
+root.render(<Heading/>);
+
+
