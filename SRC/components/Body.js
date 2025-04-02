@@ -1,5 +1,6 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
     // State to store all restaurants fetched from the API
@@ -7,6 +8,8 @@ const Body = () => {
     
     // State to store filtered restaurants (for filtering functionality)
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -32,10 +35,20 @@ const Body = () => {
             console.error("Error fetching data:", error);
         }
     };
-
-    return (
+    // Conditional Rendering: If listOfRestaurants is empty, show Shimmer component
+    return listOfRestaurants.length === 0? <Shimmer /> :(
         <div className="body">
             <div className="filter-btn">
+                <input type="text" className="search" onChange={(e)=>{
+                    setSearchText(e.target.value);
+                }} />
+                <button className="searchClick" onClick={()=>{
+                    const filteredList = listOfRestaurants.filter((restaurant) =>
+                        restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())
+                );
+                    setFilteredRestaurants(filteredList);
+                    
+                }}>Search</button>
                 <button
                     className="topRated"
                     onClick={() => {
