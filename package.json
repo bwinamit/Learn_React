@@ -4,7 +4,7 @@
   "description": "Learn React",
   "source": "App.js",
   "scripts": {
-    "start":" parcel index.html",
+    "start": " parcel index.html",
     "build": "parcel build index.html",
     "test": "jest"
   },
@@ -30,7 +30,8 @@
   "dependencies": {
     "18": "^0.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "6.4"
   },
   "browserslist": [
     "last 2 versions"
