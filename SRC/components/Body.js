@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
     // State to store all restaurants fetched from the API
     const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -35,6 +36,10 @@ const Body = () => {
             console.error("Error fetching data:", error);
         }
     };
+ const isOnline = useOnlineStatus();
+    if (!isOnline) {
+        return <h1>Looks like you are offline. Please check your internet connection.</h1>;
+    }
     // Conditional Rendering: If listOfRestaurants is empty, show Shimmer component
     return listOfRestaurants.length === 0? <Shimmer /> :(
         <div className="body">
@@ -62,10 +67,18 @@ const Body = () => {
                 </button>
             </div>
             <div className="res-container">
-                {filteredRestaurants.map((restaurant) => (
-                   <Link to={"city/hyderabad/"+restaurant.info.id}> <RestaurantCard key={restaurant.info.id} resData={restaurant} /></Link>
-                ))}
-            </div>
+  {filteredRestaurants.map((restaurant) => (
+    // ✅ Moved `key` here to the outermost element returned from map
+    <Link 
+      key={restaurant.info.id} 
+      to={"city/hyderabad/" + restaurant.info.id}
+    >
+      {/* ⛔️ Removed `key` from here, it's no longer needed */}
+      <RestaurantCard resData={restaurant} />
+    </Link>
+  ))}
+</div>
+
         </div>
     );
 };
