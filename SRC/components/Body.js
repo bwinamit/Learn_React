@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard,{withPromotedLabel} from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -8,7 +8,9 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const RestaurantCardWithPromoted = withPromotedLabel(RestaurantCard);
 
+  console.log(listOfRestaurants)
   useEffect(() => {
     fetchData();
   }, []);
@@ -79,13 +81,18 @@ const Body = () => {
       </div>
 
       {/* Restaurant Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredRestaurants.map((restaurant) => (
-          <Link key={restaurant.info.id} to={"city/hyderabad/" + restaurant.info.id}>
-            <RestaurantCard resData={restaurant} />
-          </Link>
-        ))}
-      </div>
+     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  {filteredRestaurants.map((restaurant) => (
+    <Link key={restaurant.info.id} to={"city/hyderabad/" + restaurant.info.id}>
+      {restaurant.info.avgRating > 4.5 ? (
+        <RestaurantCardWithPromoted resData={restaurant} />
+      ) : (
+        <RestaurantCard resData={restaurant} />
+      )}
+    </Link>
+  ))}
+</div>
+
     </div>
   );
 };
