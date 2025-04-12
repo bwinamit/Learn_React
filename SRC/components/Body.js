@@ -1,16 +1,22 @@
-import RestaurantCard,{withPromotedLabel} from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+
+// ✅ Correct context import
+import UserInfo from "../utils/UserInfo"; // Make sure the path is correct and file is named properly
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+
   const RestaurantCardWithPromoted = withPromotedLabel(RestaurantCard);
 
-  console.log(listOfRestaurants)
+  // ✅ Context usage for LoggedInUser and setUserName (must be inside a Provider)
+ 
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -23,9 +29,9 @@ const Body = () => {
       const json = await response.json();
 
       const restaurantData =
-        json?.data?.cards
-          ?.find((card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-          ?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
+        json?.data?.cards?.find(
+          (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        )?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
 
       setListOfRestaurants(restaurantData);
       setFilteredRestaurants(restaurantData);
@@ -35,6 +41,7 @@ const Body = () => {
   };
 
   const isOnline = useOnlineStatus();
+
   if (!isOnline) {
     return (
       <h1 className="text-center mt-10 text-xl text-red-600 font-semibold">
@@ -42,6 +49,8 @@ const Body = () => {
       </h1>
     );
   }
+
+  const { loggedInUser, setUserName } = useContext(UserInfo);
 
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -53,7 +62,7 @@ const Body = () => {
           type="text"
           placeholder="Search restaurants..."
           className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm w-full md:w-1/3"
-          value={searchText || ""}
+          value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
         <button
@@ -80,19 +89,31 @@ const Body = () => {
         </button>
       </div>
 
-      {/* Restaurant Cards Grid */}
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-  {filteredRestaurants.map((restaurant) => (
-    <Link key={restaurant.info.id} to={"city/hyderabad/" + restaurant.info.id}>
-      {restaurant.info.avgRating > 4.5 ? (
-        <RestaurantCardWithPromoted resData={restaurant} />
-      ) : (
-        <RestaurantCard resData={restaurant} />
-      )}
-    </Link>
-  ))}
-</div>
+      {/* ✅ Username input controlled by context */}
+      <div className="flex flex-col">
+        <input
+          type="text"
+          className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm w-full md:w-1/3"
+          value={loggedInUser} // ✅ This is now connected to context
+          onChange={(e) => setUserName(e.target.value)} // ✅ This updates context value
+        />
+      </div>
 
+      {/* Restaurant Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredRestaurants.map((restaurant) => (
+          <Link
+            key={restaurant.info.id}
+            to={`city/hyderabad/${restaurant.info.id}`}
+          >
+            {restaurant.info.avgRating > 4.5 ? (
+              <RestaurantCardWithPromoted resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
